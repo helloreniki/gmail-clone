@@ -8,16 +8,21 @@ import PrimaryButton from './components/UI/PrimaryButton.vue';
     </div>
     <div class="px-16 ">
         <h1 class="text-4xl font-semibold my-12 text-center">VMail Inbox</h1>
-        <div class="flex gap-2 items-center mb-2 py-2 border-b border-gray-800 text-sm">
+        <div class="flex gap-2 items-center mb-2 py-2 text-sm px-2">
             <input type="checkbox" class="w-6 h-6 accent-pink-500">
             <PrimaryButton class="">Mark Read</PrimaryButton>
             <PrimaryButton class="text-gray-400">Mark Unread</PrimaryButton>
             <PrimaryButton>Archive</PrimaryButton>
         </div>
-        <table class="text-sm">
+        <table class="text-sm cursor-pointer border-collapse">
             <tbody>
-                <tr v-for="email in emails" :key="email.id" class="border-b">
-                    <td class="pr-2">
+                <tr v-for="email in emails"
+                    :key="email.id"
+                    class="border-b border-t border-gray-700"
+                    :class="{'bg-gray-200': email.read}"
+                    @click="email.read = !email.read"
+                >
+                    <td class="px-2 py-2">
                         <input type="checkbox" class="w-6 h-6 accent-pink-500">
                     </td>
                     <td class="text-gray-500 px-2">{{ email.from }}</td>
@@ -34,9 +39,10 @@ import PrimaryButton from './components/UI/PrimaryButton.vue';
 <script setup>
 import PrimaryButton from './components/UI/PrimaryButton.vue';
 import { format } from 'date-fns'
+import { ref } from 'vue'
 
 
-const emails = [
+const emails = ref([
     {
           "id": 1,
           "from": "team@vuemastery.com",
@@ -73,6 +79,6 @@ const emails = [
           "archived": true,
           "read": false
         }
-    ]
+    ])
 
 </script>
