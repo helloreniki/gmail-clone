@@ -43,11 +43,15 @@ onMounted(getEmails)
 
 function readEmail(email) {
     email.read = true
-    axios.put(`http://localhost:3000/emails/${email.id}`, email)
+   updateEmail(email)
 }
 
 function archiveEmail(email) {
     email.archived = true
+    updateEmail(email)
+}
+
+function updateEmail(email) {
     axios.put(`http://localhost:3000/emails/${email.id}`, email)
 }
 
