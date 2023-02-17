@@ -5,7 +5,7 @@
                 :key="email.id"
                 class="border-b border-t border-gray-700"
                 :class="{'bg-gray-200': email.read}"
-                @click="email.read = !email.read"
+                @click="readEmail(email)"
             >
                 <td class="px-2 py-2">
                     <input type="checkbox" class="w-6 h-6 accent-pink-500">
@@ -13,7 +13,7 @@
                 <td class="text-gray-500 px-2">{{ email.from }}</td>
                 <td class="font-semibold px-2 text-sm">{{ email.subject }}</td>
                 <td class="text-gray-500 px-2 text-sm w-32">{{ format(new Date(email.sentAt), 'MMM do yyyy') }}</td>
-                <td class="pr-2"><PrimaryButton @click="email.archived = true" class="text-sm">Archive</PrimaryButton></td>
+                <td class="pr-2"><PrimaryButton @click="archiveEmail(email)" class="text-sm">Archive</PrimaryButton></td>
             </tr>
         </tbody>
     </table>
@@ -39,8 +39,17 @@ async function getEmails(){
 }
 
 
-getEmails()
-// console.log('email values', emails1) // empty
+onMounted(getEmails)
+
+function readEmail(email) {
+    email.read = true
+    axios.put(`http://localhost:3000/emails/${email.id}`, email)
+}
+
+function archiveEmail(email) {
+    email.archived = true
+    axios.put(`http://localhost:3000/emails/${email.id}`, email)
+}
 
 // const emails = ref([
 //     {
