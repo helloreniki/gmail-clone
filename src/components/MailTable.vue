@@ -5,7 +5,7 @@
                 :key="email.id"
                 class="border-b border-t border-gray-700"
                 :class="{'bg-gray-200': email.read}"
-                @click="readEmail(email)"
+                @click="openEmail(email)"
             >
                 <td class="px-2 py-2">
                     <input type="checkbox" class="w-6 h-6 accent-pink-500">
@@ -17,16 +17,21 @@
             </tr>
         </tbody>
     </table>
+    <!-- show opened email -->
+    <!-- <div v-if="openedEmail">{{ openedEmail.subject }}</div> -->
+    <MailView v-if="openedEmail" :email="openedEmail" />
 </template>
 
 <script setup>
 import PrimaryButton from '../components/UI/PrimaryButton.vue'
+import MailView from '../components/MailView.vue'
 import { format } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
 import axios from 'axios'
 
 const emails = ref([])
 const error = ref(null)
+const openedEmail = ref(null)
 
 async function getEmails(){
     try {
@@ -41,9 +46,10 @@ async function getEmails(){
 
 onMounted(getEmails)
 
-function readEmail(email) {
+function openEmail(email) {
     email.read = true
-   updateEmail(email)
+    updateEmail(email)
+    openedEmail.value = email
 }
 
 function archiveEmail(email) {

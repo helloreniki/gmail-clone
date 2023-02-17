@@ -2,11 +2,11 @@
 import PrimaryButton from './components/UI/PrimaryButton.vue';
 
 <template>
-    <div class="flex gap-2 justify-center items-center pt-12">
-        <PrimaryButton class="border-2 border-black">Inbox View</PrimaryButton>
-        <PrimaryButton>Archived View</PrimaryButton>
-    </div>
-    <div class="px-16 w-full">
+    <div class="max-w-7xl mx-auto px-16">
+        <div class="flex gap-2 justify-center items-center pt-12">
+            <PrimaryButton class="border-2 border-black">Inbox View</PrimaryButton>
+            <PrimaryButton>Archived View</PrimaryButton>
+        </div>
         <h1 class="text-4xl font-semibold my-12 text-center">VMail Inbox</h1>
         <div class="flex gap-2 items-center mb-2 py-2 text-sm px-2 mx-auto">
             <input type="checkbox" class="w-6 h-6 accent-pink-500">
