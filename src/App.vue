@@ -14,9 +14,14 @@ import PrimaryButton from './components/UI/PrimaryButton.vue';
             <PrimaryButton class="text-gray-400">Mark Unread</PrimaryButton>
             <PrimaryButton>Archive</PrimaryButton>
         </div>
-
-        <MailTable />
-
+        <Suspense>
+            <template #default>
+                <MailTable />
+            </template>
+            <template #fallback>
+                Loading ...
+            </template>
+        </Suspense>
     </div>
 
 </template>
