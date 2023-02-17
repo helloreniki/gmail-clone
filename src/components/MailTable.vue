@@ -19,7 +19,9 @@
     </table>
     <!-- show opened email -->
     <!-- <div v-if="openedEmail">{{ openedEmail.subject }}</div> -->
-    <MailView v-if="openedEmail" :email="openedEmail" />
+    <ModalView v-if="openedEmail" @close="closeModal">
+        <MailView :email="openedEmail" />
+    </ModalView>
 </template>
 
 <script setup>
@@ -28,6 +30,7 @@ import MailView from '../components/MailView.vue'
 import { format } from 'date-fns'
 import { computed, onMounted, ref } from 'vue'
 import axios from 'axios'
+import ModalView from './UI/ModalView.vue'
 
 const emails = ref([])
 const error = ref(null)
@@ -59,6 +62,11 @@ function archiveEmail(email) {
 
 function updateEmail(email) {
     axios.put(`http://localhost:3000/emails/${email.id}`, email)
+}
+
+function closeModal(){
+    // console.log('closing')
+    openedEmail.value = false
 }
 
 // const emails = ref([
