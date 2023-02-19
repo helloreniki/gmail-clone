@@ -15,7 +15,7 @@
 
 <script setup>
 import { onBeforeUnmount, onMounted } from 'vue'
-import { useKeyDown } from '../../compositions/useKeyDown'
+import { useKeyDown } from '../../composables/useKeyDown'
 const emit = defineEmits(['changeEmail'])
 
 useKeyDown([

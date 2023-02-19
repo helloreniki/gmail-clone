@@ -1,6 +1,6 @@
 <template>
     <table class="text-sm cursor-pointer border-collapse w-full">
-        {{  emailSelection.selected }}
+        <!-- {{  emailSelection.selected }} -->
         <tbody>
             <tr v-for="email in unarchivedEmails"
                 :key="email.id"

@@ -17,7 +17,7 @@ import PrimaryButton from './UI/PrimaryButton.vue'
 import { format } from 'date-fns'
 import { marked } from 'marked'
 import axios from 'axios';
-import useKeyDown from '../compositions/useKeyDown'
+import useKeyDown from '../composables/useKeyDown'
 
 const props = defineProps({
     email: Object
