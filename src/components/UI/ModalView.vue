@@ -18,9 +18,9 @@ import { onBeforeUnmount, onMounted } from 'vue'
 import { useKeyDown } from '../../compositions/useKeyDown'
 const emit = defineEmits(['close'])
 
-useKeyDown({
-    key: 'Escape',
-    fn: () => { emit('close') }
-})
+useKeyDown([
+    { key: 'Escape', fn: () => { emit('close') } },
+    { key: 'Enter', fn: () => { console.log('pressed Enter') } }
+])
 
 </script>
