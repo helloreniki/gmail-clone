@@ -16,10 +16,10 @@
 <script setup>
 import { onBeforeUnmount, onMounted } from 'vue'
 import { useKeyDown } from '../../compositions/useKeyDown'
-const emit = defineEmits(['close'])
+const emit = defineEmits(['changeEmail'])
 
 useKeyDown([
-    { key: 'Escape', fn: () => { emit('close') } },
+    { key: 'Escape', fn: () => { emit('changeEmail', {closeModal: true}) } },
     { key: 'Enter', fn: () => { console.log('pressed Enter') } }
 ])
 

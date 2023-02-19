@@ -3,8 +3,8 @@
         <div class="flex gap-2 mb-10">
             <PrimaryButton @click="toggleArchive">{{ props.email.archived ? 'Move to Inbox (e)' : 'Archive (e)' }}</PrimaryButton>
             <PrimaryButton @click="toggleRead">{{ props.email.read ? 'Mark Unread (r)' : 'Mark Read (r)' }}</PrimaryButton>
-            <PrimaryButton>Newer</PrimaryButton>
-            <PrimaryButton>Older</PrimaryButton>
+            <PrimaryButton @click="goOlder">Older (j)</PrimaryButton>
+            <PrimaryButton @click="goNewer">Newer (k)</PrimaryButton>
         </div>
         <h2 class="my-4 text-xl">Subject: <strong>{{ email.subject }}</strong></h2>
         <div class="mb-8">From: {{ email.from }} on {{ format(new Date(email.sentAt), 'MMM do yyyy') }}</div>
@@ -23,18 +23,40 @@ const props = defineProps({
     email: Object
 })
 
+let emit = defineEmits(['changeEmail'])
+
+
 function toggleRead(){
-    props.email.read = !props.email.read
-    axios.put(`http://localhost:3000/emails/${props.email.id}`, props.email)
+   emit('changeEmail', {toggleRead: true, save: true})
 }
 
 function toggleArchive(){
-    props.email.archived = ! props.email.archived
-    axios.put(`http://localhost:3000/emails/${props.email.id}`, props.email)
+    emit('changeEmail', {toggleArchive: true, save: true})
+}
+
+function goNewer(){
+    // console.log('gonew')
+    emit('changeEmail', {changeIndex: -1})
+}
+
+function goOlder(){
+    emit('changeEmail', {changeIndex: 1})
+}
+
+function goNewerAndArchive(){
+    emit('changeEmail', {changeIndex: -1, toggleArchive: true, save: true})
+}
+
+function goOlderAndArchive(){
+    emit('changeEmail', {changeIndex: 1, toggleArchive: true, save: true})
 }
 
 useKeyDown([
     { key: 'r', fn: toggleRead },
-    { key: 'e', fn: toggleArchive }
+    { key: 'e', fn: toggleArchive },
+    { key: 'k', fn: goNewer },
+    { key: 'j', fn: goOlder },
+    { key: '[', fn: goNewerAndArchive },
+    { key: ']', fn: goOlderAndArchive }
 ])
 </script>
