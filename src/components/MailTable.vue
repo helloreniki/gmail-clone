@@ -1,17 +1,21 @@
 <template>
     <table class="text-sm cursor-pointer border-collapse w-full">
+        {{  emailSelection.selected }}
         <tbody>
             <tr v-for="email in unarchivedEmails"
                 :key="email.id"
                 class="border-b border-t border-gray-700"
                 :class="{'bg-gray-200': email.read}"
-                @click="openEmail(email)"
             >
                 <td class="px-2 py-2">
-                    <input type="checkbox" class="w-6 h-6 accent-pink-500">
+                    <input  type="checkbox"
+                            class="w-6 h-6 accent-pink-500"
+                            :selected="selected.has(email)"
+                            @click="emailSelection.toggle(email)"
+                    >
                 </td>
-                <td class="text-gray-500 px-2">{{ email.from }}</td>
-                <td class="font-semibold px-2 text-sm">{{ email.subject }}</td>
+                <td @click="openEmail(email)" class="text-gray-500 px-2">{{ email.from }}</td>
+                <td @click="openEmail(email)" class="font-semibold px-2 text-sm">{{ email.subject }}</td>
                 <td class="text-gray-500 px-2 text-sm w-32">{{ format(new Date(email.sentAt), 'MMM do yyyy') }}</td>
                 <td class="pr-2"><PrimaryButton @click="archiveEmail(email)" class="text-sm">Archive</PrimaryButton></td>
             </tr>
@@ -28,13 +32,25 @@
 import PrimaryButton from '../components/UI/PrimaryButton.vue'
 import MailView from '../components/MailView.vue'
 import { format } from 'date-fns'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, reactive } from 'vue'
 import axios from 'axios'
 import ModalView from './UI/ModalView.vue'
 
 const emails = ref([])
 const error = ref(null)
 const openedEmail = ref(null)
+
+let selected = ref(new Set())
+let emailSelection = {
+    selected,
+    toggle(email) {
+        if(selected.value.has(email)){
+            selected.value.delete(email)
+        } else {
+            selected.value.add(email)
+        }
+    }
+}
 
 async function getEmails(){
     try {
