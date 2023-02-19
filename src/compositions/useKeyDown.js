@@ -1,9 +1,10 @@
 import { onMounted, onBeforeUnmount } from 'vue'
 
-export const useKeyDown = function(fn) {
+export const useKeyDown = function(keyCombo) {
     let onKeyDown = function(event) {
-        if(event.key == 'Escape') {
-            fn()
+        console.log(keyCombo.key)
+        if(event.key == keyCombo.key) {
+            keyCombo.fn()
         }
     }
 
@@ -14,4 +15,5 @@ export const useKeyDown = function(fn) {
 
 export default useKeyDown
 
-// this file exports useKeyDown function which takes one argument (fn) and calls that function when Escape key is hit
+// this file exports useKeyDown function which takes one argument (keyCombo)
+// keyCombo is object { key: ..., fn: ...}
