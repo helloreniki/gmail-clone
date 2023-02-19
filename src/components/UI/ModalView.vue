@@ -15,17 +15,10 @@
 
 <script setup>
 import { onBeforeUnmount, onMounted } from 'vue'
+import { useKeyDown } from '../../compositions/useKeyDown'
 const emit = defineEmits(['close'])
 
-let onKeyDown = (event) => {
-    console.log('keydown', event.key)
-    if(event.key === 'Escape'){
-        emit('close')
-    }
-}
-
-onMounted(() => window.addEventListener("keydown", onKeyDown))
-onBeforeUnmount(() => window.removeEventListener("keydown", onKeyDown))
+useKeyDown(() => { emit('close')})
 
 
 </script>
