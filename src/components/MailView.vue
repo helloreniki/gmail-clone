@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="flex gap-2 mb-10">
-            <PrimaryButton @click="toggleArchive">{{ props.email.archived ? 'Move to Inbox' : 'Archive' }}</PrimaryButton>
-            <PrimaryButton @click="toggleRead">{{ props.email.read ? 'Mark Unread' : 'Mark Read' }}</PrimaryButton>
+            <PrimaryButton @click="toggleArchive">{{ props.email.archived ? 'Move to Inbox (e)' : 'Archive (e)' }}</PrimaryButton>
+            <PrimaryButton @click="toggleRead">{{ props.email.read ? 'Mark Unread (r)' : 'Mark Read (r)' }}</PrimaryButton>
             <PrimaryButton>Newer</PrimaryButton>
             <PrimaryButton>Older</PrimaryButton>
         </div>
@@ -17,6 +17,7 @@ import PrimaryButton from './UI/PrimaryButton.vue'
 import { format } from 'date-fns'
 import { marked } from 'marked'
 import axios from 'axios';
+import useKeyDown from '../compositions/useKeyDown'
 
 const props = defineProps({
     email: Object
@@ -31,4 +32,9 @@ function toggleArchive(){
     props.email.archived = ! props.email.archived
     axios.put(`http://localhost:3000/emails/${props.email.id}`, props.email)
 }
+
+useKeyDown([
+    { key: 'r', fn: toggleRead },
+    { key: 'e', fn: toggleArchive }
+])
 </script>
