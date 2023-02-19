@@ -14,15 +14,18 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onBeforeUnmount, onMounted } from 'vue'
 const emit = defineEmits(['close'])
 
-onMounted(() => window.addEventListener("keydown", (event) => {
-    // console.log('keydown', event.key)
+let onKeyDown = (event) => {
+    console.log('keydown', event.key)
     if(event.key === 'Escape'){
         emit('close')
     }
-}))
+}
+
+onMounted(() => window.addEventListener("keydown", onKeyDown))
+onBeforeUnmount(() => window.removeEventListener("keydown", onKeyDown))
 
 
 </script>
