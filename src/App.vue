@@ -8,6 +8,7 @@ import PrimaryButton from './components/UI/PrimaryButton.vue';
             <PrimaryButton>Archived View</PrimaryButton>
         </div>
         <h1 class="text-4xl font-semibold my-12 text-center">VMail Inbox</h1>
+        <div>{{ emailSelection.selected.size }}</div>
         <div class="flex gap-2 items-center mb-2 py-2 text-sm px-2 mx-auto">
             <input type="checkbox" class="w-6 h-6 accent-pink-500">
             <PrimaryButton class="">Mark Read</PrimaryButton>
@@ -29,5 +30,8 @@ import PrimaryButton from './components/UI/PrimaryButton.vue';
 <script setup>
 import PrimaryButton from './components/UI/PrimaryButton.vue';
 import MailTable from './components/MailTable.vue';
+import { useEmailSelection } from './composables/useEmailSelection'
+
+const emailSelection = useEmailSelection()
 
 </script>

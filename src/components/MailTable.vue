@@ -10,7 +10,7 @@
                 <td class="px-2 py-2">
                     <input  type="checkbox"
                             class="w-6 h-6 accent-pink-500"
-                            :selected="selected.has(email)"
+                            :selected="emailSelection.selected.has(email)"
                             @click="emailSelection.toggle(email)"
                     >
                 </td>
@@ -21,6 +21,7 @@
             </tr>
         </tbody>
     </table>
+    {{ emailSelection.selected.size }}
     <!-- show opened email -->
     <!-- <div v-if="openedEmail">{{ openedEmail.subject }}</div> -->
     <ModalView v-if="openedEmail" @changeEmail="changeEmail">
@@ -31,26 +32,19 @@
 <script setup>
 import PrimaryButton from '../components/UI/PrimaryButton.vue'
 import MailView from '../components/MailView.vue'
+import ModalView from './UI/ModalView.vue'
 import { format } from 'date-fns'
 import { computed, onMounted, ref, reactive } from 'vue'
 import axios from 'axios'
-import ModalView from './UI/ModalView.vue'
+import useEmailSelection from '../composables/useEmailSelection'
+
+let emailSelection = useEmailSelection()
 
 const emails = ref([])
 const error = ref(null)
 const openedEmail = ref(null)
 
-let selected = ref(new Set())
-let emailSelection = {
-    selected,
-    toggle(email) {
-        if(selected.value.has(email)){
-            selected.value.delete(email)
-        } else {
-            selected.value.add(email)
-        }
-    }
-}
+
 
 async function getEmails(){
     try {
