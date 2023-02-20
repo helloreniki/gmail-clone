@@ -9,12 +9,7 @@ import PrimaryButton from './components/UI/PrimaryButton.vue';
         </div>
         <h1 class="text-4xl font-semibold my-12 text-center">VMail Inbox</h1>
         <div>{{ emailSelection.selected.size }}</div>
-        <div class="flex gap-2 items-center mb-2 py-2 text-sm px-2 mx-auto">
-            <input type="checkbox" class="w-6 h-6 accent-pink-500">
-            <PrimaryButton class="">Mark Read</PrimaryButton>
-            <PrimaryButton class="text-gray-400">Mark Unread</PrimaryButton>
-            <PrimaryButton>Archive</PrimaryButton>
-        </div>
+
         <Suspense>
             <template #default>
                 <MailTable />
