@@ -6,9 +6,9 @@
                 :checked="allEmailsSelected"
                 class="w-6 h-6 accent-pink-500"
         >
-        <PrimaryButton class="">Mark Read</PrimaryButton>
-        <PrimaryButton class="text-gray-400">Mark Unread</PrimaryButton>
-        <PrimaryButton>Archive</PrimaryButton>
+        <PrimaryButton @click="emailSelection.markRead()" :disabled="[...emailSelection.selected].every(email => email.read)" >Mark Read</PrimaryButton>
+        <PrimaryButton @click="emailSelection.markUnread()" :disabled="[...emailSelection.selected].every(email => !email.read)">Mark Unread</PrimaryButton>
+        <PrimaryButton @click="emailSelection.archive()" :disabled="numberSelected == 0">Archive</PrimaryButton>
         <!-- zakaj ta ni set -->
         <div>
             from bulk: {{ emailSelection.selected.size }}

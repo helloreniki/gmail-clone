@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { reactive } from 'vue';
 
 // new Set outside of export: global state (updates in every component used)
@@ -25,11 +26,36 @@ export const useEmailSelection = function(){
         selected.clear()
     }
 
+    let markRead = () => {
+        selected.forEach(email => {
+            email.read = true
+            axios.put(`http://localhost:3000/emails/${email.id}`, email)
+        })
+    }
+
+    let markUnread = () => {
+        selected.forEach(email => {
+            email.read = false
+            axios.put(`http://localhost:3000/emails/${email.id}`, email)
+        })
+    }
+
+    let archive = () => {
+        selected.forEach(email => {
+            email.archived = true
+            axios.put(`http://localhost:3000/emails/${email.id}`, email)
+            clear()
+        })
+    }
+
   return {
     selected,
     toggle,
     selectAll,
-    clear
+    clear,
+    markRead,
+    markUnread,
+    archive
   }
 }
 
