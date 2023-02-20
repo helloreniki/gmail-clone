@@ -1,4 +1,5 @@
 <template>
+    <BulkActionBar :emails="unarchivedEmails"/>
     <table class="text-sm cursor-pointer border-collapse w-full">
         <!-- {{  emailSelection.selected }} -->
         <tbody>
@@ -10,7 +11,7 @@
                 <td class="px-2 py-2">
                     <input  type="checkbox"
                             class="w-6 h-6 accent-pink-500"
-                            :selected="emailSelection.selected.has(email)"
+                            :checked="emailSelection.selected.has(email)"
                             @click="emailSelection.toggle(email)"
                     >
                 </td>
@@ -37,6 +38,7 @@ import { format } from 'date-fns'
 import { computed, onMounted, ref, reactive } from 'vue'
 import axios from 'axios'
 import useEmailSelection from '../composables/useEmailSelection'
+import BulkActionBar from './BulkActionBar.vue'
 
 let emailSelection = useEmailSelection()
 
