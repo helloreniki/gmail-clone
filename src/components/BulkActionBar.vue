@@ -8,7 +8,8 @@
         >
         <PrimaryButton @click="emailSelection.markRead()" :disabled="[...emailSelection.selected].every(email => email.read)" >Mark Read</PrimaryButton>
         <PrimaryButton @click="emailSelection.markUnread()" :disabled="[...emailSelection.selected].every(email => !email.read)">Mark Unread</PrimaryButton>
-        <PrimaryButton @click="emailSelection.archive()" :disabled="numberSelected == 0">Archive</PrimaryButton>
+        <PrimaryButton v-if="props.selectedScreen == 'inbox'" @click="emailSelection.archive()" :disabled="numberSelected == 0">Archive</PrimaryButton>
+        <PrimaryButton v-else @click="emailSelection.moveToInbox()" :disabled="numberSelected == 0">Move to Inbox</PrimaryButton>
         <!-- zakaj ta ni set -->
         <div>
             from bulk: {{ emailSelection.selected.size }}
@@ -25,7 +26,8 @@ import { computed } from "vue"
 const emailSelection = useEmailSelection()
 
 let props = defineProps({
-    emails: Array
+    emails: Array,
+    selectedScreen: String
 })
 
 // console.log('selected', emailSelection.selected.size)

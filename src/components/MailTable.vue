@@ -1,9 +1,9 @@
 <template>
     <div class="flex gap-2 justify-center items-center pb-12">
         <PrimaryButton @click="selectScreen('inbox')" :disabled="selectedScreen == 'inbox'">Inbox View</PrimaryButton>
-        <PrimaryButton @click="selectScreen('archive')" :disabled="selectedScreen == 'archive'" >Archived View</PrimaryButton>
+        <PrimaryButton @click="selectScreen('archive')" :disabled="selectedScreen == 'archive'">Archived View</PrimaryButton>
     </div>
-    <BulkActionBar :emails="filteredEmails"/>
+    <BulkActionBar :emails="filteredEmails" :selectedScreen="selectedScreen"/>
     <table class="text-sm cursor-pointer border-collapse w-full">
         <!-- {{  emailSelection.selected }} -->
         <tbody>
@@ -22,11 +22,13 @@
                 <td @click="openEmail(email)" class="text-gray-500 px-2">{{ email.from }}</td>
                 <td @click="openEmail(email)" class="font-semibold px-2 text-sm">{{ email.subject }}</td>
                 <td class="text-gray-500 px-2 text-sm w-32">{{ format(new Date(email.sentAt), 'MMM do yyyy') }}</td>
-                <td class="pr-2"><PrimaryButton @click="archiveEmail(email)" class="text-sm">Archive</PrimaryButton></td>
+                <td class="pr-2"><PrimaryButton @click="archiveEmail(email)" class="text-sm">{{ selectedScreen == 'inbox' ? 'Archive' : 'Move to Inbox'}}</PrimaryButton></td>
             </tr>
         </tbody>
     </table>
-    {{ emailSelection.selected.size }}
+    <div class="my-8 text-gray-400 text-sm">
+        {{ emailSelection.selected.size }} emails selected
+    </div>
     <!-- show opened email -->
     <!-- <div v-if="openedEmail">{{ openedEmail.subject }}</div> -->
     <ModalView v-if="openedEmail" @changeEmail="changeEmail">

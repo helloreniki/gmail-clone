@@ -48,6 +48,14 @@ export const useEmailSelection = function(){
         })
     }
 
+    let moveToInbox = () => {
+        selected.forEach(email => {
+            email.archived = false
+            axios.put(`http://localhost:3000/emails/${email.id}`, email)
+            clear()
+        })
+    }
+
   return {
     selected,
     toggle,
@@ -55,7 +63,8 @@ export const useEmailSelection = function(){
     clear,
     markRead,
     markUnread,
-    archive
+    archive,
+    moveToInbox
   }
 }
 

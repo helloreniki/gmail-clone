@@ -5,7 +5,7 @@ import PrimaryButton from './components/UI/PrimaryButton.vue';
     <div class="max-w-7xl mx-auto px-16">
 
         <h1 class="text-4xl font-semibold my-12 text-center">VMail Inbox</h1>
-        <div>{{ emailSelection.selected.size }}</div>
+        <div class="text-center mb-8 text-gray-700">{{ emailSelection.selected.size }} emails selected</div>
 
         <Suspense>
             <template #default>
