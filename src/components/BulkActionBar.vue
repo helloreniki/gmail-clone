@@ -1,5 +1,5 @@
 <template>
-     <div class="flex gap-2 items-center mb-2 py-2 text-sm px-2 mx-auto">
+     <div class="flex gap-3 items-center mb-4 py-2 text-sm px-2 mx-auto">
         <!-- Select All -->
         <input  type="checkbox"
                 @click="toggleAll"

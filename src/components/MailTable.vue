@@ -1,9 +1,13 @@
 <template>
-    <BulkActionBar :emails="unarchivedEmails"/>
+    <div class="flex gap-2 justify-center items-center pb-12">
+        <PrimaryButton @click="selectScreen('inbox')" :disabled="selectedScreen == 'inbox'">Inbox View</PrimaryButton>
+        <PrimaryButton @click="selectScreen('archive')" :disabled="selectedScreen == 'archive'" >Archived View</PrimaryButton>
+    </div>
+    <BulkActionBar :emails="filteredEmails"/>
     <table class="text-sm cursor-pointer border-collapse w-full">
         <!-- {{  emailSelection.selected }} -->
         <tbody>
-            <tr v-for="email in unarchivedEmails"
+            <tr v-for="email in filteredEmails"
                 :key="email.id"
                 class="border-b border-t border-gray-700"
                 :class="{'bg-gray-200': email.read}"
@@ -45,7 +49,9 @@ let emailSelection = useEmailSelection()
 const emails = ref([])
 const error = ref(null)
 const openedEmail = ref(null)
+const selectedScreen = ref('inbox')
 
+console.log(selectedScreen.value)
 
 
 async function getEmails(){
@@ -58,8 +64,13 @@ async function getEmails(){
     }
 }
 
-
 onMounted(getEmails)
+
+function selectScreen(screenName){
+    selectedScreen.value = screenName
+    emailSelection.clear()
+}
+
 
 function openEmail(email) {
     // console.log('openEmail')
@@ -85,10 +96,18 @@ function updateEmail(email) {
 //     openedEmail.value = false
 // }
 
-
-const unarchivedEmails = computed(() => {
-    return sortedEmails.value.filter((email) => !email.archived)
+// show emails based on which screen is selected
+const filteredEmails = computed(() => {
+    if(selectedScreen.value == 'inbox'){
+        return sortedEmails.value.filter((email) => !email.archived)
+    } else {
+        return sortedEmails.value.filter((email) => email.archived)
+    }
 })
+
+// const unarchivedEmails = computed(() => {
+//     return sortedEmails.value.filter((email) => !email.archived)
+// })
 
 const sortedEmails = computed(() => {
     return emails.value.sort((e1, e2) => {e1.sentAt - e2.sentAt})
