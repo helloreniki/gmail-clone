@@ -44,7 +44,7 @@ export const useEmailSelection = function(){
         selected.forEach(email => {
             email.archived = true
             axios.put(`http://localhost:3000/emails/${email.id}`, email)
-            clear()
+            // clear()
         })
     }
 
@@ -52,7 +52,7 @@ export const useEmailSelection = function(){
         selected.forEach(email => {
             email.archived = false
             axios.put(`http://localhost:3000/emails/${email.id}`, email)
-            clear()
+            // clea r()
         })
     }
 

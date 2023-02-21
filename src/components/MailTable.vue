@@ -22,7 +22,8 @@
                 <td @click="openEmail(email)" class="text-gray-500 px-2">{{ email.from }}</td>
                 <td @click="openEmail(email)" class="font-semibold px-2 text-sm">{{ email.subject }}</td>
                 <td class="text-gray-500 px-2 text-sm w-32">{{ format(new Date(email.sentAt), 'MMM do yyyy') }}</td>
-                <td class="pr-2"><PrimaryButton @click="archiveEmail(email)" class="text-sm">{{ selectedScreen == 'inbox' ? 'Archive' : 'Move to Inbox'}}</PrimaryButton></td>
+                <td class="pr-2"><PrimaryButton v-if="selectedScreen == 'inbox'" @click="archiveEmail(email)" class="text-sm">Archive</PrimaryButton></td>
+                <td class="pr-2"><PrimaryButton v-if="selectedScreen == 'archive'" @click="moveEmailToInbox(email)" class="text-sm">Move to Inbox</PrimaryButton></td>
             </tr>
         </tbody>
     </table>
@@ -88,6 +89,13 @@ function archiveEmail(email) {
     email.archived = true
     updateEmail(email)
 }
+
+function moveEmailToInbox(email) {
+    email.archived = false
+    updateEmail(email)
+}
+
+
 
 function updateEmail(email) {
     axios.put(`http://localhost:3000/emails/${email.id}`, email)
