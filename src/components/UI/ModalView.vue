@@ -1,14 +1,13 @@
 <template>
-    <div class="relative">
-        <!-- overlay -->
-        <div class="bg-gray-700/80 fixed inset-0" @click="$emit('close')"></div>
+    <div class="fixed inset-0 overflow-y-auto px-4 py-12 sm:px-0 z-50">
+        <div class="fixed inset-0" @click="emit('changeEmail', {closeModal: true})">
+            <div class="absolute inset-0 bg-gray-500 opacity-75" />
+        </div>
 
-        <!-- modal card -->
-        <div class="absolute inset-0 z-10 flex justify-center items-center ">
-            <div class="mx-auto max-w-5xl p-12 bg-white shadow-md rounded-lg">
-                <slot />
-
-            </div>
+        <div
+            class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform sm:w-full sm:max-w-5xl mx-auto p-8"
+        >
+            <slot  />
         </div>
     </div>
 </template>
