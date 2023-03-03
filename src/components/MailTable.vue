@@ -27,11 +27,12 @@
             </tr>
         </tbody>
     </table>
+
     <div class="my-8 text-gray-400 text-sm">
         {{ emailSelection.selected.size }} emails selected
     </div>
+
     <!-- show opened email -->
-    <!-- <div v-if="openedEmail">{{ openedEmail.subject }}</div> -->
     <ModalView v-if="openedEmail" @changeEmail="changeEmail">
         <MailView :email="openedEmail" @changeEmail="changeEmail"/>
     </ModalView>
@@ -42,7 +43,7 @@ import PrimaryButton from '../components/UI/PrimaryButton.vue'
 import MailView from '../components/MailView.vue'
 import ModalView from './UI/ModalView.vue'
 import { format } from 'date-fns'
-import { computed, onMounted, ref, reactive } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import axios from 'axios'
 import useEmailSelection from '../composables/useEmailSelection'
 import BulkActionBar from './BulkActionBar.vue'
@@ -54,14 +55,11 @@ const error = ref(null)
 const openedEmail = ref(null)
 const selectedScreen = ref('inbox')
 
-console.log(selectedScreen.value)
-
 
 async function getEmails(){
     try {
         let response = await axios.get('http://localhost:3000/emails')
         emails.value = response.data
-
     } catch(err) {
         error.value = err
     }
@@ -76,12 +74,10 @@ function selectScreen(screenName){
 
 
 function openEmail(email) {
-    // console.log('openEmail')
     openedEmail.value = email
     if(email){
         email.read = true
         updateEmail(email)
-
     }
 }
 
@@ -94,8 +90,6 @@ function moveEmailToInbox(email) {
     email.archived = false
     updateEmail(email)
 }
-
-
 
 function updateEmail(email) {
     axios.put(`http://localhost:3000/emails/${email.id}`, email)
@@ -115,12 +109,12 @@ const filteredEmails = computed(() => {
     }
 })
 
-// const unarchivedEmails = computed(() => {
-//     return sortedEmails.value.filter((email) => !email.archived)
-// })
-
 const sortedEmails = computed(() => {
     return emails.value.sort((e1, e2) => {e1.sentAt - e2.sentAt})
+})
+
+const unarchivedEmails = computed(() => {
+    return sortedEmails.value.filter((email) => !email.archived)
 })
 
 function changeEmail({toggleRead, toggleArchive, save, closeModal, changeIndex}){
@@ -132,16 +126,11 @@ function changeEmail({toggleRead, toggleArchive, save, closeModal, changeIndex})
 
     if(changeIndex){
         let emails = unarchivedEmails
-        // console.log(changeIndex)
         let currentIndex = emails.value.indexOf(openedEmail.value)
-        // console.log('curr', currentIndex)
-        // console.log(emails.value[currentIndex + changeIndex])
-
+        // console.log(changeIndex) // 1 or -1
         let newEmail = emails.value[currentIndex + changeIndex]
         openEmail(newEmail)
     }
-
-
 }
 
 </script>

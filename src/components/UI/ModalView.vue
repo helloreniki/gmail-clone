@@ -13,7 +13,6 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted } from 'vue'
 import { useKeyDown } from '../../composables/useKeyDown'
 const emit = defineEmits(['changeEmail'])
 
