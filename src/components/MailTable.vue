@@ -117,6 +117,10 @@ const unarchivedEmails = computed(() => {
     return sortedEmails.value.filter((email) => !email.archived)
 })
 
+const archivedEmails = computed(() => {
+    return sortedEmails.value.filter((email) => email.archived)
+})
+
 function changeEmail({toggleRead, toggleArchive, save, closeModal, changeIndex}){
     let email = openedEmail.value
     if(toggleRead) { email.read = !email.read }
@@ -125,11 +129,16 @@ function changeEmail({toggleRead, toggleArchive, save, closeModal, changeIndex})
     if(closeModal) { openedEmail.value = null }
 
     if(changeIndex){
-        let emails = unarchivedEmails
-        let currentIndex = emails.value.indexOf(openedEmail.value)
-        // console.log(changeIndex) // 1 or -1
-        let newEmail = emails.value[currentIndex + changeIndex]
-        openEmail(newEmail)
+        if(selectedScreen.value == 'inbox'){
+            let currentIndex = unarchivedEmails.value.indexOf(openedEmail.value)
+            // console.log(changeIndex) // 1 or -1
+            let newEmail = unarchivedEmails.value[currentIndex + changeIndex]
+            openEmail(newEmail)
+        } else {
+            let currentIndex = archivedEmails.value.indexOf(openedEmail.value)
+            let newEmail = archivedEmails.value[currentIndex + changeIndex]
+            openEmail(newEmail)
+        }
     }
 }
 
